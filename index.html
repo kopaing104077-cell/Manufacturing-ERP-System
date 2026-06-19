@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tun Tauk Kyal - Manufacturing ERP Command Console</title>
+    <title>Enterprise Manufacturing ERP Console</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         .glass-effect {
@@ -19,16 +19,17 @@
         
         <div class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between">
             <div class="p-5">
-                <h1 class="text-xl font-bold tracking-wider bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-                    ထွန်းတောက်ကြွယ်
+                <h1 id="sidebar-company-name" class="text-xl font-bold tracking-wider bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
+                    My Enterprise
                 </h1>
-                <p class="text-xs text-slate-500 mt-1">Manufacturing ERP v1.0</p>
+                <p class="text-xs text-slate-500 mt-1">Manufacturing ERP v2.0</p>
                 
                 <nav class="mt-8 space-y-2">
                     <button onclick="switchTab('dashboard')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 transition bg-slate-800 text-emerald-400">📊 Dashboard</button>
                     <button onclick="switchTab('accounting')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">💰 Accounting</button>
                     <button onclick="switchTab('warehouse')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">📦 Raw Materials</button>
-                    <button onclick="switchTab('production')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">⚙️ Production Run</button>
+                    <button onclick="switchTab('production')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">⚙️ Production (BOM)</button>
+                    <button onclick="switchTab('settings')" class="w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 transition text-slate-400">⚙️ Settings</button>
                 </nav>
             </div>
             <div class="p-4 border-t border-slate-800 text-xs text-slate-500 text-center">
@@ -40,31 +41,46 @@
             
             <div id="tab-dashboard" class="space-y-6">
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-200">Enterprise Command Dashboard</h2>
-                    <p class="text-sm text-slate-400">လုပ်ငန်း၏ လက်ရှိအခြေအနေကို တိုက်ရိုက်ကြည့်ရှုရန်</p>
+                    <h2 id="dash-welcome-title" class="text-2xl font-bold text-slate-200">Enterprise Command Dashboard</h2>
+                    <p class="text-sm text-slate-400">လုပ်ငန်းတစ်ခုလုံး၏ ကုန်ထုတ်လုပ်မှုနှင့် ဘဏ္ဍာရေး အခြေအနေ</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="glass-effect p-6 rounded-xl">
                         <div class="text-sm text-slate-400 font-medium">လက်ကျန်ငွေ (Cash Balance)</div>
-                        <div id="dash-cash" class="text-3xl font-bold text-emerald-400 mt-2">$10,000</div>
-                        <div class="text-xs text-slate-500 mt-1">စနစ်တွင်း အသုံးပြုနိုင်သော စုစုပေါင်းငွေ</div>
+                        <div id="dash-cash" class="text-3xl font-bold text-emerald-400 mt-2">$0</div>
                     </div>
                     <div class="glass-effect p-6 rounded-xl">
-                        <div class="text-sm text-slate-400 font-medium">ကုန်ကြမ်းလက်ကျန် (Sugar Stock)</div>
-                        <div id="dash-sugar" class="text-3xl font-bold text-blue-400 mt-2">500 KG</div>
-                        <div class="text-xs text-slate-500 mt-1">Raw Material Warehouse Quantity</div>
+                        <div class="text-sm text-slate-400 font-medium">ကုန်ကြမ်းအမယ်စုစုပေါင်း (Raw Material Types)</div>
+                        <div id="dash-materials-count" class="text-3xl font-bold text-blue-400 mt-2">0 မျိုး</div>
                     </div>
                     <div class="glass-effect p-6 rounded-xl">
-                        <div class="text-sm text-slate-400 font-medium">အချောထည်လက်ကျန် (Finished Juice Bottles)</div>
-                        <div id="dash-fg" class="text-3xl font-bold text-amber-400 mt-2">0 Unit</div>
-                        <div class="text-xs text-slate-500 mt-1">Ready for Sales & Distribution</div>
+                        <div class="text-sm text-slate-400 font-medium">အချောထည်လက်ကျန် (Finished Goods)</div>
+                        <div id="dash-fg" class="text-3xl font-bold text-amber-400 mt-2">0 Units</div>
+                    </div>
+                </div>
+
+                <div class="glass-effect p-6 rounded-xl">
+                    <h3 class="text-lg font-semibold text-slate-300 mb-4">📦 လက်ရှိဂိုဒေါင်တွင်း ကုန်ကြမ်းလက်ကျန်များ</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
+                                    <th class="pb-3">ကုန်ကြမ်းအမည်</th>
+                                    <th class="pb-3">ယူနစ်</th>
+                                    <th class="pb-3">လက်ကျန်ပမာဏ</th>
+                                    <th class="pb-3">ပျမ်းမျှတန်ဖိုး (၁ ယူနစ်)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-table-body" class="text-sm text-slate-300 divide-y divide-slate-800">
+                                </tbody>
+                        </table>
                     </div>
                 </div>
 
                 <div class="glass-effect p-6 rounded-xl">
                     <h3 class="text-lg font-semibold text-slate-300 mb-4">📜 စနစ်တွင်း လုပ်ဆောင်ချက်မှတ်တမ်း (Activity Logs)</h3>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto max-h-60">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="border-b border-slate-800 text-slate-400 text-xs uppercase tracking-wider">
@@ -83,14 +99,14 @@
             <div id="tab-accounting" class="space-y-6 hidden">
                 <div>
                     <h2 class="text-2xl font-bold text-slate-200">💰 Accounting & Capital Allocation</h2>
-                    <p class="text-sm text-slate-400">ငွေကြေးစာရင်း ထည့်သွင်းခြင်းနှင့် စီမံခြင်း</p>
+                    <p class="text-sm text-slate-400">လုပ်ငန်းသုံး မတည်ငွေရင်း စီမံခန့်ခွဲမှု</p>
                 </div>
                 <div class="glass-effect p-6 rounded-xl max-w-md">
-                    <h3 class="text-md font-semibold text-slate-300 mb-4">မတည်ငွေ ထည့်သွင်းရန် (Add Capital)</h3>
+                    <h3 class="text-md font-semibold text-slate-300 mb-4">မတည်ငွေ ဖြည့်တင်းရန် (Add Capital)</h3>
                     <div class="space-y-4">
                         <div>
                             <label class="block text-xs font-medium text-slate-400 mb-1">ထည့်သွင်းမည့် ငွေပမာဏ ($)</label>
-                            <input id="input-capital" type="number" value="5000" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-emerald-500" />
+                            <input id="input-capital" type="number" value="10000" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-emerald-500" />
                         </div>
                         <button onclick="addCapital()" class="w-full bg-emerald-600 hover:bg-emerald-700 font-semibold text-white py-2 px-4 rounded transition">ငွေစာရင်းထဲထည့်မည်</button>
                     </div>
@@ -99,42 +115,104 @@
 
             <div id="tab-warehouse" class="space-y-6 hidden">
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-200">📦 Raw Material Inventory</h2>
-                    <p class="text-sm text-slate-400">ကုန်ကြမ်းပစ္စည်းများ ဝယ်ယူပြီး ဂိုဒေါင်သွင်းခြင်း</p>
+                    <h2 class="text-2xl font-bold text-slate-200">📦 Raw Material Inventory Management</h2>
+                    <p class="text-sm text-slate-400">ကုန်ကြမ်းအသစ် သတ်မှတ်ခြင်းနှင့် ဝယ်ယူခြင်း</p>
                 </div>
-                <div class="glass-effect p-6 rounded-xl max-w-md">
-                    <h3 class="text-md font-semibold text-slate-300 mb-4">Purchase Raw Materials (Sugar)</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">ဝယ်ယူမည့် ကုန်ကြမ်းပမာဏ (KG)</label>
-                            <input id="input-purchase-qty" type="number" value="100" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500" />
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-effect p-6 rounded-xl">
+                        <h3 class="text-md font-semibold text-slate-300 mb-4">➕ ကုန်ကြမ်းအမျိုးအမည်သစ် ထည့်ရန်</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">ကုန်ကြမ်းအမည် (ဥပမာ - Sugar, Plastic Bottle, Flavour)</label>
+                                <input id="mat-name" type="text" placeholder="Water" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500" />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">အသုံးပြုမည့် ယူနစ် (Unit)</label>
+                                <select id="mat-unit" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none">
+                                    <option value="KG">KG</option>
+                                    <option value="LITER">LITER</option>
+                                    <option value="PCS">PCS</option>
+                                    <option value="METERS">METERS</option>
+                                </select>
+                            </div>
+                            <button onclick="addNewMaterialType()" class="w-full bg-blue-600 hover:bg-blue-700 font-semibold text-white py-2 px-4 rounded transition">ကုန်ကြမ်းစာရင်းထဲ ထည့်သွင်းမည်</button>
                         </div>
-                        <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">တစ်ယူနစ်စျေးနှုန်း ($ Per KG)</label>
-                            <input id="input-purchase-price" type="number" value="5" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500" />
+                    </div>
+
+                    <div class="glass-effect p-6 rounded-xl">
+                        <h3 class="text-md font-semibold text-slate-300 mb-4">🛒 ကုန်ကြမ်းများ ဝယ်ယူပြီး Stock သွင်းရန်</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">ဝယ်ယူမည့် ကုန်ကြမ်းကို ရွေးပါ</label>
+                                <select id="purchase-mat-select" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none">
+                                    </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">ဝယ်ယူမည့် အရေအတွက်/ပမာဏ</label>
+                                <input id="purchase-qty" type="number" value="100" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none" />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">ဝယ်ယူသည့် စျေးနှုန်း (၁ ယူနစ်စာ) ($)</label>
+                                <input id="purchase-price" type="number" value="2" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none" />
+                            </div>
+                            <button onclick="purchaseMaterial()" class="w-full bg-emerald-600 hover:bg-emerald-700 font-semibold text-white py-2 px-4 rounded transition">ငွေချေပြီး Stock ဖြည့်မည်</button>
                         </div>
-                        <button onclick="purchaseMaterial()" class="w-full bg-blue-600 hover:bg-blue-700 font-semibold text-white py-2 px-4 rounded transition">ငွေချေပြီး ဂိုဒေါင်ထဲ သွင်းမည်</button>
                     </div>
                 </div>
             </div>
 
             <div id="tab-production" class="space-y-6 hidden">
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-200">⚙️ Production Run & Manufacturing</h2>
-                    <p class="text-sm text-slate-400">BOM သတ်မှတ်ချက်အရ ကုန်ထုတ်လုပ်မှု လုပ်ငန်းစဉ် မောင်းနှင်ရန်</p>
+                    <h2 class="text-2xl font-bold text-slate-200">⚙️ Production Order & Recipe (BOM)</h2>
+                    <p class="text-sm text-slate-400">သတ်မှတ်ထားသော ကုန်ကြမ်းစပ်နည်းစနစ်ဖြင့် ကုန်ထုတ်လုပ်ခြင်း</p>
                 </div>
-                <div class="glass-effect p-6 rounded-xl max-w-md">
-                    <div class="mb-4 p-3 bg-slate-900/80 border border-slate-800 rounded-lg text-xs text-slate-400 space-y-1">
-                        <span class="font-semibold text-slate-300 block mb-1">📋 Recipe Bill of Materials (BOM) Standard:</span>
-                        • အချောထည် ၁ Unit ထုတ်လုပ်ရန် Sugar = <span class="text-blue-400">0.5 KG</span> လိုအပ်ပါသည်။
-                    </div>
-                    <h3 class="text-md font-semibold text-slate-300 mb-4">Start Production Order</h3>
+                
+                <div class="glass-effect p-6 rounded-xl max-w-xl">
+                    <h3 class="text-md font-semibold text-slate-300 mb-4">🚀 ကုန်ထုတ်လုပ်မှုအမိန့်စာ (Run Production Order)</h3>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs font-medium text-slate-400 mb-1">ထုတ်လုပ်မည့် အချောထည် အရေအတွက် (Units)</label>
-                            <input id="input-prod-qty" type="number" value="50" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-amber-500" />
+                            <label class="block text-xs font-medium text-slate-400 mb-1">ထုတ်လုပ်မည့် အချောထည်အမည် (Finished Product Name)</label>
+                            <input id="prod-fg-name" type="text" value="Premium Juice Bottle" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none" />
                         </div>
-                        <button onclick="runProduction()" class="w-full bg-amber-600 hover:bg-amber-700 font-semibold text-white py-2 px-4 rounded transition">ထုတ်လုပ်မှု စတင်မည်</button>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">ထုတ်လုပ်မည့် အရေအတွက် (Units)</label>
+                            <input id="prod-target-qty" type="number" value="10" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none" />
+                        </div>
+                        
+                        <div class="border-t border-slate-800 pt-4">
+                            <span class="block text-xs font-medium text-slate-400 mb-2">📋 Bill of Materials (BOM) စပ်နည်းသတ်မှတ်ချက် (အချောထည် ၁ Unit စာအတွက်)</span>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-slate-500 mb-1">အသုံးပြုမည့် ကုန်ကြမ်း</label>
+                                    <select id="bom-mat-select" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 text-xs focus:outline-none">
+                                        </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-slate-500 mb-1">၁ Unit စာ သုံးစွဲမည့် ပမာဏ</label>
+                                    <input id="bom-mat-qty" type="number" value="0.5" step="0.1" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 text-xs focus:outline-none" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="executeProduction()" class="w-full bg-amber-600 hover:bg-amber-700 font-semibold text-white py-2 px-4 rounded transition mt-4">ဂိုဒေါင်မှကုန်ကြမ်းထုတ်ယူပြီး ထုတ်လုပ်မှုစတင်မည်</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-settings" class="space-y-6 hidden">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-200">⚙️ System Settings</h2>
+                    <p class="text-sm text-slate-400">ERP စနစ်တစ်ခုလုံး၏ အချက်အလက်များကို ပြင်ဆင်ရန်</p>
+                </div>
+                <div class="glass-effect p-6 rounded-xl max-w-md">
+                    <h3 class="text-md font-semibold text-slate-300 mb-4">လုပ်ငန်းအချက်အလက် ပြင်ဆင်ရန်</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-400 mb-1">လုပ်ငန်း/ကုမ္ပဏီ နာမည် (Company Name)</label>
+                            <input id="settings-company-name" type="text" class="w-full bg-slate-950 border border-slate-800 rounded px-3 py-2 text-slate-200 focus:outline-none focus:border-blue-500" />
+                        </div>
+                        <button onclick="saveSettings()" class="w-full bg-blue-600 hover:bg-blue-700 font-semibold text-white py-2 px-4 rounded transition">အပြောင်းအလဲများ သိမ်းဆည်းမည်</button>
                     </div>
                 </div>
             </div>
@@ -143,50 +221,80 @@
     </div>
 
     <script>
-        // State Initialization using LocalStorage for data persistence
-        let state = JSON.parse(localStorage.getItem('erp_state')) || {
-            cashBalance: 10000,
-            sugarStock: 500,
+        // Default State Initialization with custom items capability
+        let state = JSON.parse(localStorage.getItem('erp_state_v2')) || {
+            companyName: "မင်းခန့် စက်မှုလုပ်ငန်း",
+            cashBalance: 5000,
             finishedGoods: 0,
+            materials: [
+                { id: "m1", name: "Sugar", unit: "KG", currentStock: 100, avgCost: 3 },
+                { id: "m2", name: "Flavor Liquid", unit: "LITER", currentStock: 50, avgCost: 5 }
+            ],
             logs: [
-                { time: new Date().toLocaleTimeString(), type: 'SYSTEM', detail: 'Tun Tauk Kyal ERP Engine Ready.' }
+                { time: new Date().toLocaleTimeString(), type: 'SYSTEM', detail: 'ERP Engine v2.0 Initialized.' }
             ]
         };
 
         function saveState() {
-            localStorage.setItem('erp_state', JSON.stringify(state));
+            localStorage.setItem('erp_state_v2', JSON.stringify(state));
             updateUI();
         }
 
         function updateUI() {
-            // Update Dashboard Metrics
+            // Update Text & Titles
+            document.getElementById('sidebar-company-name').innerText = state.companyName;
+            document.getElementById('dash-welcome-title').innerText = `${state.companyName} - Command Dashboard`;
+            document.getElementById('settings-company-name').value = state.companyName;
+
+            // Update Metrics
             document.getElementById('dash-cash').innerText = `$${state.cashBalance.toLocaleString()}`;
-            document.getElementById('dash-sugar').innerText = `${state.sugarStock.toLocaleString()} KG`;
+            document.getElementById('dash-materials-count').innerText = `${state.materials.length} မျိုး`;
             document.getElementById('dash-fg').innerText = `${state.finishedGoods.toLocaleString()} Units`;
 
-            // Update Logs Table
-            const tbody = document.getElementById('log-table-body');
-            tbody.innerHTML = '';
-            state.logs.asReversed().forEach(log => {
-                const row = `<tr class="hover:bg-slate-900/40">
-                    <td class="py-3 text-slate-500">${log.time}</td>
-                    <td class="py-3 font-semibold text-xs"><span class="px-2 py-0.5 rounded ${log.type === 'ACCOUNTING' ? 'bg-emerald-500/10 text-emerald-400' : log.type === 'WAREHOUSE' ? 'bg-blue-500/10 text-blue-400' : log.type === 'PRODUCTION' ? 'bg-amber-500/10 text-amber-400' : 'bg-slate-800 text-slate-400'}">${log.type}</span></td>
-                    <td class="py-3 text-slate-300">${log.detail}</td>
+            // Render Inventory Table
+            const invTbody = document.getElementById('inventory-table-body');
+            invTbody.innerHTML = '';
+            state.materials.forEach(mat => {
+                invTbody.innerHTML += `<tr class="hover:bg-slate-900/40">
+                    <td class="py-3 font-medium">${mat.name}</td>
+                    <td class="py-3 text-slate-400">${mat.unit}</td>
+                    <td class="py-3 font-semibold ${mat.currentStock < 20 ? 'text-red-400' : 'text-slate-200'}">${mat.currentStock.toLocaleString()}</td>
+                    <td class="py-3 text-emerald-400">$${mat.avgCost}</td>
                 </tr>`;
-                tbody.innerHTML += row;
+            });
+
+            // Populate Dropdowns for Purchase and BOM Selection
+            const purchaseSelect = document.getElementById('purchase-mat-select');
+            const bomSelect = document.getElementById('bom-mat-select');
+            purchaseSelect.innerHTML = '';
+            bomSelect.innerHTML = '';
+            
+            state.materials.forEach(mat => {
+                const opt = `<option value="${mat.id}">${mat.name} (${mat.unit})</option>`;
+                purchaseSelect.innerHTML += opt;
+                bomSelect.innerHTML += opt;
+            });
+
+            // Update Logs Table
+            const logTbody = document.getElementById('log-table-body');
+            logTbody.innerHTML = '';
+            // Show recent logs on top
+            [...state.logs].reverse().forEach(log => {
+                logTbody.innerHTML += `<tr class="hover:bg-slate-900/40">
+                    <td class="py-2 text-slate-500 text-xs">${log.time}</td>
+                    <td class="py-2 text-xs"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${log.type === 'ACCOUNTING' ? 'bg-emerald-500/10 text-emerald-400' : log.type === 'WAREHOUSE' ? 'bg-blue-500/10 text-blue-400' : log.type === 'PRODUCTION' ? 'bg-amber-500/10 text-amber-400' : 'bg-slate-800 text-slate-400'}">${log.type}</span></td>
+                    <td class="py-2 text-slate-300 text-xs">${log.detail}</td>
+                </tr>`;
             });
         }
 
-        // Tab Navigation Switcher
+        // Tab Switcher Controller
         function switchTab(tabId) {
-            document.getElementById('tab-dashboard').classList.add('hidden');
-            document.getElementById('tab-accounting').classList.add('hidden');
-            document.getElementById('tab-warehouse').classList.add('hidden');
-            document.getElementById('tab-production').classList.add('hidden');
-
+            ['dashboard', 'accounting', 'warehouse', 'production', 'settings'].forEach(id => {
+                document.getElementById(`tab-${id}`).classList.add('hidden');
+            });
             document.getElementById(`tab-${tabId}`).classList.remove('hidden');
 
-            // Reset tab button highlight styling
             event.currentTarget.parentElement.querySelectorAll('button').forEach(btn => {
                 btn.classList.remove('bg-slate-800', 'text-emerald-400');
                 btn.classList.add('text-slate-400');
@@ -194,62 +302,117 @@
             event.currentTarget.classList.add('bg-slate-800', 'text-emerald-400');
         }
 
-        // STEP 1: Add Capital (Accounting)
+        // Configuration Settings Saver
+        function saveSettings() {
+            const nameInput = document.getElementById('settings-company-name').value;
+            if(!nameInput.trim()) return alert("လုပ်ငန်းနာမည်အလွတ်မဖြစ်ရပါ");
+            state.companyName = nameInput;
+            state.logs.push({ time: new Date().toLocaleTimeString(), type: 'SYSTEM', detail: `လုပ်ငန်းနာမည်ကို "${nameInput}" သို့ ပြောင်းလဲခဲ့သည်` });
+            saveState();
+            alert("ပြင်ဆင်မှုများသိမ်းဆည်းပြီးပါပြီ");
+        }
+
+        // Accounting: Add Capital
         function addCapital() {
             const amount = parseFloat(document.getElementById('input-capital').value);
-            if (isNaN(amount) || amount <= 0) return alert('မှန်ကန်သော ပမာဏ ထည့်သွင်းပါ');
-
+            if (isNaN(amount) || amount <= 0) return alert('မှန်ကန်သော ငွေပမာဏထည့်ပါ');
             state.cashBalance += amount;
-            state.logs.push({
-                time: new Date().toLocaleTimeString(),
-                type: 'ACCOUNTING',
-                detail: `မတည်ငွေ ထပ်မံဖြည့်တင်းခြင်း: +$${amount} (Cash Balance တိုးလာပါသည်)`
-            });
+            state.logs.push({ time: new Date().toLocaleTimeString(), type: 'ACCOUNTING', detail: `မတည်ငွေရင်း ဖြည့်တင်းမှု: +$${amount}` });
             saveState();
-            alert('ငွေစာရင်း ထည့်သွင်းမှု အောင်မြင်ပါသည်');
+            alert('ငွေစာရင်း ထည့်သွင်းပြီးပါပြီ');
         }
 
-        // STEP 2 & 3: Purchase & Receive Material
-        function purchaseMaterial() {
-            const qty = parseFloat(document.getElementById('input-purchase-qty').value);
-            const price = parseFloat(document.getElementById('input-purchase-price').value);
-            const totalCost = qty * price;
+        // Warehouse: Add Custom Material Type
+        function addNewMaterialType() {
+            const name = document.getElementById('mat-name').value.trim();
+            const unit = document.getElementById('mat-unit').value;
 
-            if (totalCost > state.cashBalance) return alert('🚨 စနစ်တွင်း ငွေကြေးမလုံလောက်ပါသဖြင့် ဝယ်ယူ၍မရပါ!');
-
-            state.cashBalance -= totalCost;
-            state.sugarStock += qty;
-            state.logs.push({
-                time: new Date().toLocaleTimeString(),
-                type: 'WAREHOUSE',
-                detail: `ကုန်ကြမ်း (Sugar) ${qty} KG ဝယ်ယူခဲ့သည်။ ကုန်ကျငွေ -$${totalCost}။ (Raw Material Inventory တိုးလာပါသည်)`
-            });
-            saveState();
-            alert('ကုန်ကြမ်းဝယ်ယူပြီး ဂိုဒေါင်သွင်းခြင်း အောင်မြင်ပါသည်');
-        }
-
-        // STEP 4 & 5: BOM Calculation & Production Execution
-        function runProduction() {
-            const targetQty = parseFloat(document.getElementById('input-prod-qty').value);
-            const requiredSugar = targetQty * 0.5; // BOM Requirement Rules
-
-            if (requiredSugar > state.sugarStock) {
-                return alert(`🚨 ကုန်ကြမ်းမလုံလောက်ပါ! ထုတ်လုပ်ရန် Sugar ${requiredSugar} KG လိုအပ်သော်လည်း လက်ရှိတွင် ${state.sugarStock} KG သာရှိပါသည်`);
+            if(!name) return alert('ကုန်ကြမ်းအမည် ထည့်သွင်းပေးပါ');
+            
+            // Prevent duplication
+            if(state.materials.some(m => m.name.toLowerCase() === name.toLowerCase())) {
+                return alert('ဤကုန်ကြမ်းအမည် ရှိနှင့်ပြီးသားဖြစ်သည်');
             }
 
-            // Deduct Raw Materials and Create Finished Goods (Atomic Execution Model)
-            state.sugarStock -= requiredSugar;
+            const newMat = {
+                id: "m_" + Date.now(),
+                name: name,
+                unit: unit,
+                currentStock: 0,
+                avgCost: 0
+            };
+
+            state.materials.push(newMat);
+            state.logs.push({ time: new Date().toLocaleTimeString(), type: 'WAREHOUSE', detail: `ကုန်ကြမ်းအမျိုးအစားသစ် သတ်မှတ်ခြင်း: ${name} (${unit})` });
+            document.getElementById('mat-name').value = ''; // clear input
+            saveState();
+            alert('ကုန်ကြမ်းအမျိုးအစားအသစ် ထည့်သွင်းပြီးပါပြီ');
+        }
+
+        // Warehouse: Purchase Inventory Stock
+        function purchaseMaterial() {
+            const matId = document.getElementById('purchase-mat-select').value;
+            const qty = parseFloat(document.getElementById('purchase-qty').value);
+            const price = parseFloat(document.getElementById('purchase-price').value);
+            const totalCost = qty * price;
+
+            if(!matId) return alert('ကုန်ကြမ်းအမယ် မရှိသေးပါ၊ အရင်ဆောက်ပါ');
+            if(totalCost > state.cashBalance) return alert('🚨 စနစ်တွင်း ငွေကြေးမလုံလောက်ပါ!');
+
+            const matIndex = state.materials.findIndex(m => m.id === matId);
+            if(matIndex !== -1) {
+                let currentMat = state.materials[matIndex];
+                
+                // Calculate moving average cost
+                const newTotalStock = currentMat.currentStock + qty;
+                const newAvgCost = ((currentMat.currentStock * currentMat.avgCost) + totalCost) / newTotalStock;
+                
+                currentMat.currentStock = newTotalStock;
+                currentMat.avgCost = Math.round(newAvgCost * 100) / 100; // 2 decimals
+                
+                state.cashBalance -= totalCost;
+                state.logs.push({ 
+                    time: new Date().toLocaleTimeString(), 
+                    type: 'WAREHOUSE', 
+                    detail: `${currentMat.name} ကို ${qty} ${currentMat.unit} ဝယ်ယူခဲ့သည်။ ကုန်ကျငွေ -$${totalCost}` 
+                });
+                saveState();
+                alert('ကုန်ကြမ်းဝယ်ယူမှု အောင်မြင်ပါသည်');
+            }
+        }
+
+        // Production: Dynamic BOM Evaluation & Production Execution
+        function executeProduction() {
+            const fgName = document.getElementById('prod-fg-name').value.trim();
+            const targetQty = parseFloat(document.getElementById('prod-target-qty').value);
+            const selectedMatId = document.getElementById('bom-mat-select').value;
+            const bomUsagePerUnit = parseFloat(document.getElementById('bom-mat-qty').value);
+
+            if(!fgName) return alert('အချောထည်အမည် ထည့်ပေးပါ');
+            if(!selectedMatId) return alert('စပ်နည်းအတွက် အသုံးပြုမည့် ကုန်ကြမ်းကို ရွေးချယ်ပေးပါ');
+
+            const mat = state.materials.find(m => m.id === selectedMatId);
+            const totalRequired = targetQty * bomUsagePerUnit;
+
+            if(totalRequired > mat.currentStock) {
+                return alert(`🚨 ကုန်ကြမ်းမလုံလောက်ပါ! ${fgName} ထုတ်လုပ်ရန် ${mat.name} စုစုပေါင်း ${totalRequired} ${mat.unit} လိုအပ်သော်လည်း လက်ရှိတွင် ${mat.currentStock} ${mat.unit} သာ ရှိပါသည်`);
+            }
+
+            // Deduct from dynamic selected material stock
+            mat.currentStock -= totalRequired;
             state.finishedGoods += targetQty;
+            
             state.logs.push({
                 time: new Date().toLocaleTimeString(),
                 type: 'PRODUCTION',
-                detail: `အချောထည် ${targetQty} Units ထုတ်လုပ်မှု အောင်မြင်သည်။ BOM အရ Sugar ${requiredSugar} KG သုံးစွဲခဲ့ပြီး (Finished Goods တိုးလာပါသည်)`
+                detail: `အချောထည် "${fgName}" ${targetQty} Units ထုတ်လုပ်ပြီး။ စပ်နည်း (BOM) အရ ကုန်ကြမ်း [${mat.name}] ${totalRequired} ${mat.unit} ကို သုံးစွဲခဲ့ပါသည်`
             });
+
             saveState();
-            alert('🎉 ကုန်ထုတ်လုပ်မှု အောင်မြင်စွာ ပြီးဆုံးပြီး အချောထည်ဂိုဒေါင်ထဲသို့ ရောက်ရှိသွားပါပြီ');
+            alert(`🎉 ${fgName} ထုတ်လုပ်မှု အောင်မြင်ပြီး အချောထည်ဂိုဒေါင်ထဲသို့ စာရင်းသွင်းလိုက်ပါပြီ`);
         }
 
-        // Initial Boot Setup Load
+        // Initialize First UI Load
         updateUI();
     </script>
 </body>
