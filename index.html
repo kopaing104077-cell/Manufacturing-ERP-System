@@ -3,283 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Resource Planning (ERP) Console</title>
+    <title>Professional Retail & Distribution Control Terminal</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .glass-panel {
-            background: rgba(15, 23, 42, 0.45);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .sidebar-gradient {
-            background: linear-gradient(180deg, #0f172a 0%, #020617 100%);
-        }
-        .glow-green:hover { box-shadow: 0 0 15px rgba(16, 185, 129, 0.2); }
-        .glow-blue:hover { box-shadow: 0 0 15px rgba(59, 130, 246, 0.2); }
     </style>
 </head>
-<body class="bg-[#030712] text-slate-100 antialiased min-h-screen overflow-hidden">
+<body class="bg-slate-950 text-slate-100 antialiased min-h-screen overflow-hidden">
 
-    <div class="flex h-screen w-screen">
+    <div class="flex h-screen w-screen overflow-hidden">
         
-        <div class="w-72 sidebar-gradient border-r border-slate-800/60 flex flex-col justify-between z-10">
-            <div class="p-6">
+        <div class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col justify-between z-10">
+            <div class="p-5">
                 <div class="flex items-center space-x-3 mb-8">
-                    <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                        <span class="text-white font-bold text-lg">M</span>
+                    <div class="h-9 w-9 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                        <span class="text-white font-bold text-md">P</span>
                     </div>
                     <div>
-                        <h1 id="sidebar-company-name" class="text-lg font-bold tracking-tight bg-gradient-to-r from-slate-100 via-slate-200 to-slate-400 bg-clip-text text-transparent">
-                            Enterprise ERP
-                        </h1>
-                        <span class="text-[10px] uppercase tracking-widest text-indigo-400 font-semibold">HQ Command Core</span>
+                        <h1 id="sidebar-app-title" class="text-md font-bold tracking-tight text-slate-200">Custom POS App</h1>
+                        <span class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Development Build</span>
                     </div>
                 </div>
                 
-                <p class="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-3 px-3">Main Core Modules</p>
-                <nav class="space-y-1.5">
-                    <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition duration-200 bg-slate-800/80 text-blue-400 border border-slate-700/50 shadow-sm">
-                        <span>📊 Dashboard Terminal</span>
+                <nav class="space-y-1">
+                    <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl text-sm font-medium transition bg-slate-800 text-blue-400">
+                        <span>📊 Dashboard</span>
                     </button>
-                    <button onclick="switchTab('accounting')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition duration-200 text-slate-400 hover:bg-slate-800/40 hover:text-slate-200">
-                        <span>💰 Capital Ledger</span>
+                    <button onclick="switchTab('inventory')" class="nav-btn w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl text-sm font-medium transition text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+                        <span>📦 Inventory Items</span>
                     </button>
-                    <button onclick="switchTab('warehouse')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition duration-200 text-slate-400 hover:bg-slate-800/40 hover:text-slate-200">
-                        <span>📦 Stock Inventory</span>
+                    <button onclick="switchTab('pos')" class="nav-btn w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl text-sm font-medium transition text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+                        <span>🛒 POS Terminal</span>
                     </button>
-                    <button onclick="switchTab('production')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition duration-200 text-slate-400 hover:bg-slate-800/40 hover:text-slate-200">
-                        <span>⚙️ Production (BOM)</span>
-                    </button>
-                    <button onclick="switchTab('settings')" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition duration-200 text-slate-400 hover:bg-slate-800/40 hover:text-slate-200">
-                        <span>🛡️ Admin Settings</span>
+                    <button onclick="switchTab('settings')" class="nav-btn w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl text-sm font-medium transition text-slate-400 hover:bg-slate-800/50 hover:text-slate-200">
+                        <span>⚙️ Settings</span>
                     </button>
                 </nav>
             </div>
             
-            <div class="p-4 m-4 rounded-xl bg-slate-900/50 border border-slate-800/60 flex items-center space-x-3">
-                <div class="h-8 w-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-semibold text-slate-300">MK</div>
-                <div>
-                    <p class="text-xs font-semibold text-slate-200">Min Khant</p>
-                    <p class="text-[10px] text-emerald-400 flex items-center gap-1">
-                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span> Senior Architect
-                    </p>
-                </div>
+            <div class="p-4 border-t border-slate-800 text-xs text-slate-500 flex items-center justify-between">
+                <span>Dev Mode: Active</span>
+                <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
             </div>
         </div>
 
         <div class="flex-1 flex flex-col overflow-hidden">
             
-            <header class="h-16 border-b border-slate-800/60 bg-slate-950/40 backdrop-blur-md px-8 flex items-center justify-between z-10">
-                <div class="flex items-center space-x-2">
-                    <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700/60 text-slate-400">System Live</span>
+            <header class="h-14 border-b border-slate-800 bg-slate-900/40 backdrop-blur px-8 flex items-center justify-between">
+                <div class="text-xs font-semibold tracking-wider text-slate-400 uppercase">
+                    System Control Matrix
                 </div>
-                <div class="text-xs text-slate-400 font-medium">
-                    System Time (24h): <span id="clock-display" class="font-bold text-slate-200">--:--:--</span>
+                <div id="live-clock" class="text-xs font-mono font-bold text-slate-300">
+                    --:--:--
                 </div>
             </header>
 
-            <main class="flex-1 overflow-y-auto p-8 bg-gradient-to-b from-slate-950 to-[#030712]">
+            <main class="flex-1 overflow-y-auto p-8 bg-slate-950">
                 
-                <div id="tab-dashboard" class="space-y-8 animated fadeIn">
+                <div id="tab-dashboard" class="space-y-6">
                     <div>
-                        <h2 id="dash-welcome-title" class="text-2xl font-bold tracking-tight text-slate-100">Executive Matrix Overview</h2>
-                        <p class="text-xs text-slate-400 mt-1">လုပ်ငန်းတစ်ခုလုံး၏ ဘဏ္ဍာရေးနှင့် ထုတ်လုပ်မှုအခြေအနေအား စောင့်ကြည့်စစ်ဆေးရန် ကွန်ဆိုးလ်</p>
+                        <h2 id="dash-heading" class="text-xl font-bold text-slate-100 tracking-tight">Business Overview</h2>
+                        <p class="text-xs text-slate-400 mt-0.5">လက်ရှိ လုပ်ငန်း၏ ငွေစာရင်းနှင့် ကုန်ပစ္စည်းလက်ကျန် အခြေအနေများ</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group transition duration-300 hover:border-emerald-500/30">
-                            <div class="absolute top-0 right-0 p-6 opacity-5 text-emerald-400 text-6xl font-bold font-mono">CASH</div>
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">လက်ကျန်ငွေစာရင်း (Total Cash Reserve)</p>
-                            <div id="dash-cash" class="text-3xl font-bold text-slate-100 tracking-tight mt-3">$0.00</div>
-                            <p class="text-[11px] text-emerald-400 font-medium mt-2 flex items-center gap-1">✦ Active Liquidity Asset</p>
+                        <div class="glass-panel p-5 rounded-2xl">
+                            <span class="text-xs font-medium text-slate-400 uppercase tracking-wider block">စုစုပေါင်း အရောင်းရငွေ (Total Revenue)</span>
+                            <div id="dash-revenue" class="text-2xl font-bold text-emerald-400 mt-2">$0.00</div>
                         </div>
-                        <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group transition duration-300 hover:border-blue-500/30">
-                            <div class="absolute top-0 right-0 p-6 opacity-5 text-blue-400 text-6xl font-bold font-mono">RAW</div>
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">ကုန်ကြမ်းအမျိုးအမည် (Registered Materials)</p>
-                            <div id="dash-materials-count" class="text-3xl font-bold text-slate-100 tracking-tight mt-3">0 SKU</div>
-                            <p class="text-[11px] text-blue-400 font-medium mt-2">✦ Warehouse Master Records</p>
+                        <div class="glass-panel p-5 rounded-2xl">
+                            <span class="text-xs font-medium text-slate-400 uppercase tracking-wider block">ကုန်ပစ္စည်းအမျိုးအမည် (Total Products)</span>
+                            <div id="dash-product-count" class="text-2xl font-bold text-blue-400 mt-2">0 Items</div>
                         </div>
-                        <div class="glass-panel p-6 rounded-2xl relative overflow-hidden group transition duration-300 hover:border-amber-500/30">
-                            <div class="absolute top-0 right-0 p-6 opacity-5 text-amber-400 text-6xl font-bold font-mono">GOODS</div>
-                            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">အချောထည်လက်ကျန် (Finished Goods Store)</p>
-                            <div id="dash-fg-count" class="text-3xl font-bold text-slate-100 tracking-tight mt-3">0 SKU</div>
-                            <p class="text-[11px] text-amber-400 font-medium mt-2">✦ Ready for Inventory Release</p>
+                        <div class="glass-panel p-5 rounded-2xl">
+                            <span class="text-xs font-medium text-slate-400 uppercase tracking-wider block">အော်ဒါအရေအတွက် (Total Orders)</span>
+                            <div id="dash-order-count" class="text-2xl font-bold text-amber-400 mt-2">0 Bills</div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div class="glass-panel p-6 rounded-2xl">
-                            <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider">📦 Warehouse Inventory Stocks</h3>
-                                <span class="text-[10px] text-slate-500 font-mono">Real-time Stock Ledger</span>
-                            </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-left">
-                                    <thead>
-                                        <tr class="border-b border-slate-800 text-[11px] uppercase text-slate-400 font-bold tracking-wider">
-                                            <th class="pb-3">Item / Name</th>
-                                            <th class="pb-3">Type</th>
-                                            <th class="pb-3 text-right">Physical Stock</th>
-                                            <th class="pb-3 text-right">Avg Unit Cost</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="inventory-table-body" class="text-xs divide-y divide-slate-800/60 text-slate-300">
-                                        </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="glass-panel p-6 rounded-2xl">
-                            <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider">🎯 Finished Goods Store (ကုန်ချောလက်ကျန်)</h3>
-                                <span class="text-[10px] text-slate-500 font-mono">Production Output</span>
-                            </div>
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-left">
-                                    <thead>
-                                        <tr class="border-b border-slate-800 text-[11px] uppercase text-slate-400 font-bold tracking-wider">
-                                            <th class="pb-3">Product Name</th>
-                                            <th class="pb-3">Unit Style</th>
-                                            <th class="pb-3 text-right">Available Qty</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="fg-table-body" class="text-xs divide-y divide-slate-800/60 text-slate-300">
-                                        </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-panel p-6 rounded-2xl">
-                        <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-4">📜 Core System Audit & Activity Logs</h3>
-                        <div class="overflow-x-auto max-h-52 overflow-y-auto">
+                    <div class="glass-panel p-5 rounded-2xl">
+                        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4">📜 စနစ်တွင်း နောက်ဆုံးလုပ်ဆောင်ချက် မှတ်တမ်းများ (Activity Audit Logs)</h3>
+                        <div class="overflow-x-auto max-h-64 overflow-y-auto">
                             <table class="w-full text-left">
-                                <tbody id="log-table-body" class="text-xs divide-y divide-slate-800/50">
+                                <tbody id="log-table-rows" class="text-xs divide-y divide-slate-800/50 text-slate-300">
                                     </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <div id="tab-accounting" class="space-y-6 hidden">
+                <div id="tab-inventory" class="space-y-6 hidden">
                     <div>
-                        <h2 class="text-2xl font-bold text-slate-100">💰 Capital Ledger Control</h2>
-                        <p class="text-xs text-slate-400 mt-1">လုပ်ငန်းသုံး ဘဏ္ဍာရေးအရင်းအမြစ်များ စီမံခန့်ခွဲရန် ကဏ္ဍ</p>
+                        <h2 class="text-xl font-bold text-slate-100 tracking-tight">📦 Stock Inventory Controller</h2>
+                        <p class="text-xs text-slate-400 mt-0.5">ကုန်ပစ္စည်းအသစ်များထည့်သွင်းခြင်းနှင့် လက်ကျန်စာရင်း (Stock) စီမံခန့်ခွဲခြင်း</p>
                     </div>
-                    <div class="glass-panel p-6 rounded-2xl max-w-md">
-                        <h3 class="text-sm font-bold text-slate-200 mb-4 uppercase tracking-wider">မတည်ရင်းနှီးငွေ ထည့်သွင်းရန်</h3>
-                        <div class="space-y-4">
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                        <div class="glass-panel p-5 rounded-2xl lg:col-span-1 space-y-4">
+                            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider">➕ ကုန်ပစ္စည်းအသစ် စာရင်းသွင်းရန်</h3>
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Capital Amount ($)</label>
-                                <input id="input-capital" type="number" value="50000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-emerald-500 transition" />
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Product Name / Title</label>
+                                <input id="inv-name" type="text" placeholder="ဥပမာ - Speaker Cabinet, Coca-Cola" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500" />
                             </div>
-                            <button onclick="addCapital()" class="glow-green w-full bg-emerald-600 hover:bg-emerald-500 font-semibold text-xs text-white uppercase py-3 px-4 rounded-xl transition duration-200 cursor-pointer tracking-wider">Deposit into Cash Ledger</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="tab-warehouse" class="space-y-6 hidden">
-                    <div>
-                        <h2 class="text-2xl font-bold text-slate-100">📦 Master Inventory Registry</h2>
-                        <p class="text-xs text-slate-400 mt-1">ကုန်ကြမ်းအမျိုးအစားသစ်များ သတ်မှတ်ခြင်းနှင့် ဖြည့်တင်းခြင်း</p>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div class="glass-panel p-6 rounded-2xl">
-                            <h3 class="text-sm font-bold text-slate-200 mb-4 uppercase tracking-wider">➕ ကုန်ကြမ်းပစ္စည်း အမျိုးအမည်အသစ် သတ်မှတ်ရန်</h3>
-                            <div class="space-y-4">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Measurement Unit Style (စိတ်ကြိုက်ယူနစ်)</label>
+                                <input id="inv-unit" type="text" placeholder="ဥပမာ - ခု, ဘူး, ပိဿာ, PCS, Box" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500" />
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Material SKU / Name</label>
-                                    <input id="mat-name" type="text" placeholder="e.g., Raw Chemical, Iron Sheet, Packaging Box" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-blue-500 transition" />
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Stock Qty</label>
+                                    <input id="inv-stock" type="number" value="100" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none" />
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Measurement Unit Style (စိတ်ကြိုက်ယူနစ်)</label>
-                                    <input id="mat-unit" type="text" placeholder="e.g., KG, LITER, PCS, Pack, ပိဿာ, ထုပ်" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-blue-500 transition" />
+                                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Unit Price ($)</label>
+                                    <input id="inv-price" type="number" value="15" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none" />
                                 </div>
-                                <button onclick="addNewMaterialType()" class="glow-blue w-full bg-blue-600 hover:bg-blue-500 font-semibold text-xs text-white uppercase py-3 px-4 rounded-xl transition duration-200 cursor-pointer tracking-wider">Register Master SKU</button>
                             </div>
+                            <button onclick="saveNewProduct()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs uppercase py-2.5 px-4 rounded-xl transition cursor-pointer tracking-wider">Save to Database</button>
                         </div>
 
-                        <div class="glass-panel p-6 rounded-2xl">
-                            <h3 class="text-sm font-bold text-slate-200 mb-4 uppercase tracking-wider">🛒 Procurement & Stock Refill (ကုန်ကြမ်းဝယ်ယူမှု)</h3>
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Select Target SKU</label>
-                                    <select id="purchase-mat-select" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-emerald-500 transition">
-                                        </select>
-                                </div>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Purchase Qty</label>
-                                        <input id="purchase-qty" type="number" value="1000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none" />
-                                    </div>
-                                    <div>
-                                        <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Unit Cost Price ($)</label>
-                                        <input id="purchase-price" type="number" value="5" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none" />
-                                    </div>
-                                </div>
-                                <button onclick="purchaseMaterial()" class="glow-green w-full bg-emerald-600 hover:bg-emerald-500 font-semibold text-xs text-white uppercase py-3 px-4 rounded-xl transition duration-200 cursor-pointer tracking-wider">Approve Invoice & Add Stock</button>
+                        <div class="glass-panel p-5 rounded-2xl lg:col-span-2">
+                            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-4">📋 လက်ရှိ ဂိုဒေါင်တွင်း ကုန်ပစ္စည်းလက်ကျန် စာရင်းဇယား</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead>
+                                        <tr class="border-b border-slate-800 text-[10px] uppercase text-slate-400 font-bold tracking-wider">
+                                            <th class="pb-2">Product Details</th>
+                                            <th class="pb-2">Unit</th>
+                                            <th class="pb-2 text-right">In Stock</th>
+                                            <th class="pb-2 text-right">Unit Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="inventory-table-rows" class="text-xs divide-y divide-slate-800/60 text-slate-300">
+                                        </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div id="tab-production" class="space-y-6 hidden">
+                <div id="tab-pos" class="space-y-6 hidden">
                     <div>
-                        <h2 class="text-2xl font-bold text-slate-100">⚙️ Advanced Bill of Materials & Manufacturing</h2>
-                        <p class="text-xs text-slate-400 mt-1">Multi-BOM စပ်နည်းစနစ်များ သတ်မှတ်၍ ထုတ်လုပ်မှုအမိန့်စာ မောင်းနှင်ခြင်း</p>
+                        <h2 class="text-xl font-bold text-slate-100 tracking-tight">🛒 POS Terminal & Checkout Engine</h2>
+                        <p class="text-xs text-slate-400 mt-0.5">ကုန်ပစ္စည်းများ ရောင်းချရန်နှင့် ဖြတ်ပိုင်းငွေတောင်းခံလွှာ (Invoice) ထုတ်ပေးရန် ကဏ္ဍ</p>
                     </div>
-                    
-                    <div class="glass-panel p-6 rounded-2xl max-w-2xl">
-                        <h3 class="text-sm font-bold text-slate-200 mb-4 uppercase tracking-wider text-indigo-400">🚀 Production Order Workflow Terminal</h3>
-                        
-                        <div class="space-y-4">
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Finished Product Name (ထုတ်လုပ်မည့်ကုန်ချောအမည်)</label>
-                                    <input id="prod-fg-name" type="text" placeholder="e.g., Luxury Box Case, Steel Rod Grade-A" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none" />
-                                </div>
-                                <div>
-                                    <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Output Unit Style (e.g., Box, Pack, Pcs)</label>
-                                    <input id="prod-fg-unit" type="text" placeholder="e.g., Box, Pcs, Dozen" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none" />
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Target Output Quantity (ထုတ်လုပ်မည့် အရေအတွက်)</label>
-                                <input id="prod-target-qty" type="number" value="100" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none" />
-                            </div>
 
-                            <div class="border-t border-slate-800/80 pt-4">
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">📋 Formula Recipe / Bill of Materials (BOM)</span>
-                                    <button onclick="addBomRow()" class="text-[11px] font-semibold text-blue-400 hover:text-blue-300 transition cursor-pointer">+ Add Material to Formula</button>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                        <div class="glass-panel p-5 rounded-2xl lg:col-span-1 space-y-4">
+                            <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider">🛒 ခြင်းတောင်းထဲ ပစ္စည်းထည့်ရန် (Add to Cart)</h3>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Select Product</label>
+                                <select id="pos-product-select" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none">
+                                    </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Sales Quantity (ရောင်းချမည့် အရေအတွက်)</label>
+                                <input id="pos-qty" type="number" value="1" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none" />
+                            </div>
+                            <button onclick="addItemToCart()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold text-xs uppercase py-2.5 px-4 rounded-xl transition cursor-pointer tracking-wider">＋ Add To Cart</button>
+                        </div>
+
+                        <div class="glass-panel p-5 rounded-2xl lg:col-span-2 flex flex-col justify-between min-h-[350px]">
+                            <div>
+                                <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                                    <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider">🧾 ယာယီ ငွေတောင်းခံလွှာ (Current Invoice Draft)</h3>
+                                    <span class="text-[10px] font-mono text-slate-500">Terminal #01</span>
                                 </div>
                                 
-                                <div id="bom-rows-container" class="space-y-2">
-                                    </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left">
+                                        <thead>
+                                            <tr class="border-b border-slate-800 text-[10px] uppercase text-slate-400 font-bold tracking-wider">
+                                                <th class="pb-2">Item</th>
+                                                <th class="pb-2 text-right">Qty</th>
+                                                <th class="pb-2 text-right">Price</th>
+                                                <th class="pb-2 text-right">Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="cart-table-rows" class="text-xs divide-y divide-slate-800/60 text-slate-300">
+                                            </tbody>
+                                    </table>
+                                </div>
                             </div>
 
-                            <button onclick="executeProduction()" class="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 font-bold text-xs text-white uppercase py-3.5 px-4 rounded-xl transition duration-200 cursor-pointer tracking-wider mt-4 shadow-lg shadow-orange-950/20">Authorize & Execute Production Order</button>
+                            <div class="border-t border-slate-800 pt-4 mt-6 space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs font-bold text-slate-400 uppercase">ကျသင့်ငွေစုစုပေါင်း (Grand Total Amount):</span>
+                                    <span id="cart-grand-total" class="text-xl font-mono font-bold text-emerald-400">$0.00</span>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <button onclick="clearCart()" class="w-1/3 bg-slate-900 hover:bg-slate-850 text-red-400 border border-slate-800 font-semibold text-xs uppercase py-3 px-4 rounded-xl transition cursor-pointer tracking-wider">Cancel</button>
+                                    <button onclick="checkoutBill()" class="w-2/3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase py-3 px-4 rounded-xl transition cursor-pointer tracking-wider shadow-lg shadow-emerald-950/20">✔ Complete Order & Print</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div id="tab-settings" class="space-y-6 hidden">
                     <div>
-                        <h2 class="text-2xl font-bold text-slate-100">🛡️ Administration & Parameters</h2>
-                        <p class="text-xs text-slate-400 mt-1">ERP စနစ်၏ လုပ်ငန်းအချက်အလက် ကန့်သတ်ချက်များ သတ်မှတ်ရန်</p>
+                        <h2 class="text-xl font-bold text-slate-100 tracking-tight">⚙️ Configuration Terminal</h2>
+                        <p class="text-xs text-slate-400 mt-0.5">စနစ်၏ အချက်အလက်ဆိုင်ရာ အမည်နာမများ သတ်မှတ်ရန်</p>
                     </div>
-                    <div class="glass-panel p-6 rounded-2xl max-w-md">
-                        <h3 class="text-sm font-bold text-slate-200 mb-4 uppercase tracking-wider">Corporate Identity Settings</h3>
+                    <div class="glass-panel p-5 rounded-2xl max-w-md">
+                        <h3 class="text-xs font-bold text-slate-200 mb-4 uppercase tracking-wider">System Profiles</h3>
                         <div class="space-y-4">
                             <div>
-                                <label class="block text-[11px] font-bold text-slate-400 uppercase mb-1.5">Organization / Company Name</label>
-                                <input id="settings-company-name" type="text" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:border-blue-500 transition" />
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Application UI Header Name</label>
+                                <input id="settings-app-title" type="text" class="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500" />
                             </div>
-                            <button onclick="saveSettings()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold text-xs uppercase py-3 px-4 rounded-xl transition duration-200 cursor-pointer tracking-wider">Update Global Profile</button>
+                            <button onclick="saveConfiguration()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold text-xs uppercase py-2.5 px-4 rounded-xl transition cursor-pointer tracking-wider">Update System Config</button>
                         </div>
                     </div>
                 </div>
@@ -289,249 +228,203 @@
     </div>
 
     <script>
-        // State Machine Core System Setup
-        let state = JSON.parse(localStorage.getItem('mrp_premium_state')) || {
-            companyName: "Nexus Manufacturing Ltd.",
-            cashBalance: 100000,
-            materials: [
-                { id: "m_1", name: "Steel Raw Plate", unit: "KG", currentStock: 5000, avgCost: 12 },
-                { id: "m_2", name: "Industrial Coating Paint", unit: "LITER", currentStock: 1200, avgCost: 25 },
-                { id: "m_3", name: "Zinc Coated Bolt", unit: "PCS", currentStock: 8000, avgCost: 0.50 }
-            ],
-            finishedGoodsStore: [
-                { id: "fg_1", name: "Heavy Duty Cargo Frame", unit: "PCS", currentStock: 45 }
+        // Native Database Persistence Layer Initialization (Zero dependencies)
+        let database = JSON.parse(localStorage.getItem('custom_pos_db')) || {
+            appTitle: "Custom POS App",
+            totalRevenue: 0,
+            orderCount: 0,
+            products: [
+                { id: "p1", name: "Sample Heavy Unit", unit: "Pcs", stock: 50, price: 120.00 },
+                { id: "p2", name: "Premium Raw Module", unit: "Box", stock: 15, price: 45.00 }
             ],
             logs: [
-                { time: new Date().toLocaleTimeString(), type: 'SYSTEM', detail: 'Cloud ERP Architecture Security Handshake Achieved.' }
+                { time: new Date().toLocaleTimeString(), detail: "POS Engine initialized successfully." }
             ]
         };
 
-        function saveState() {
-            localStorage.setItem('mrp_premium_state', JSON.stringify(state));
-            updateUI();
+        // Active State of Current Session Shopping Cart
+        let activeCart = [];
+
+        function saveDatabase() {
+            localStorage.setItem('custom_pos_db', JSON.stringify(database));
+            updateUserInterface();
         }
 
-        function updateUI() {
-            // Update Headers & Identifiers
-            document.getElementById('sidebar-company-name').innerText = state.companyName;
-            document.getElementById('dash-welcome-title').innerText = `${state.companyName} — Console`;
-            document.getElementById('settings-company-name').value = state.companyName;
+        function updateUserInterface() {
+            // Sync Profile Text
+            document.getElementById('sidebar-app-title').innerText = database.appTitle;
+            document.getElementById('dash-heading').innerText = `${database.appTitle} Overview`;
+            document.getElementById('settings-app-title').value = database.appTitle;
 
-            // Update Statistics
-            document.getElementById('dash-cash').innerText = `$${state.cashBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-            document.getElementById('dash-materials-count').innerText = `${state.materials.length} SKU`;
-            document.getElementById('dash-fg-count').innerText = `${state.finishedGoodsStore.length} SKU`;
+            // Sync Dashboard Metrics Counters
+            document.getElementById('dash-revenue').innerText = `$${database.totalRevenue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('dash-product-count').innerText = `${database.products.length} Items`;
+            document.getElementById('dash-order-count').innerText = `${database.orderCount} Bills`;
 
-            // Render Warehouse Stocks Table
-            const invTbody = document.getElementById('inventory-table-body');
-            invTbody.innerHTML = '';
-            state.materials.forEach(mat => {
-                invTbody.innerHTML += `<tr class="border-b border-slate-800/30 hover:bg-slate-900/30 transition">
-                    <td class="py-3 font-semibold text-slate-200">${mat.name}</td>
-                    <td class="py-3 text-slate-400 font-mono text-[11px]"><span class="px-2 py-0.5 rounded bg-slate-800/60 border border-slate-700/50">${mat.unit}</span></td>
-                    <td class="py-3 text-right font-bold ${mat.currentStock < 100 ? 'text-red-400 animate-pulse' : 'text-slate-300'}">${mat.currentStock.toLocaleString()}</td>
-                    <td class="py-3 text-right text-emerald-400 font-mono font-medium">$${mat.avgCost}</td>
+            // Render Inventory Master Stock Table
+            const invRows = document.getElementById('inventory-table-rows');
+            invRows.innerHTML = '';
+            database.products.forEach(p => {
+                invRows.innerHTML += `<tr class="border-b border-slate-900 hover:bg-slate-900/30 transition">
+                    <td class="py-2.5 font-semibold text-slate-200">${p.name}</td>
+                    <td class="py-2.5 text-slate-400 font-mono text-[11px]"><span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-800">${p.unit}</span></td>
+                    <td class="py-2.5 text-right font-bold ${p.stock <= 5 ? 'text-red-400 animate-pulse' : 'text-slate-300'}">${p.stock.toLocaleString()}</td>
+                    <td class="py-2.5 text-right font-mono font-medium text-emerald-400">$${p.price.toFixed(2)}</td>
                 </tr>`;
             });
 
-            // Render Finished Goods Store Table
-            const fgTbody = document.getElementById('fg-table-body');
-            fgTbody.innerHTML = '';
-            state.finishedGoodsStore.forEach(fg => {
-                fgTbody.innerHTML += `<tr class="border-b border-slate-800/30 hover:bg-slate-900/30 transition">
-                    <td class="py-3 font-semibold text-slate-200">${fg.name}</td>
-                    <td class="py-3 text-slate-400 font-mono text-[11px]"><span class="px-2 py-0.5 rounded bg-slate-800/60 border border-slate-700/50">${fg.unit}</span></td>
-                    <td class="py-3 text-right font-bold text-amber-400">${fg.currentStock.toLocaleString()}</td>
+            // Populate Dropdown Select box inside the POS Module Panel
+            const posSelect = document.getElementById('pos-product-select');
+            posSelect.innerHTML = '';
+            database.products.forEach(p => {
+                posSelect.innerHTML += `<option value="${p.id}">${p.name} ($${p.price.toFixed(2)} / ${p.unit})</option>`;
+            });
+
+            // Render Core Audit Logs Display Panel 
+            const logRows = document.getElementById('log-table-rows');
+            logRows.innerHTML = '';
+            [...database.logs].reverse().forEach(log => {
+                logRows.innerHTML += `<tr class="hover:bg-slate-900/10">
+                    <td class="py-2 text-slate-500 font-mono w-24">${log.time}</td>
+                    <td class="py-2 text-slate-300 font-medium">${log.detail}</td>
                 </tr>`;
             });
 
-            // Populate Selection Options on Forms Loading
-            const purchaseSelect = document.getElementById('purchase-mat-select');
-            purchaseSelect.innerHTML = '';
-            state.materials.forEach(mat => {
-                purchaseSelect.innerHTML += `<option value="${mat.id}">${mat.name} [Unit: ${mat.unit}]</option>`;
-            });
-
-            // Update Log Matrix Lists
-            const logTbody = document.getElementById('log-table-body');
-            logTbody.innerHTML = '';
-            [...state.logs].reverse().forEach(log => {
-                logTbody.innerHTML += `<tr class="border-b border-slate-900/40 hover:bg-slate-900/20">
-                    <td class="py-2.5 text-slate-500 font-mono w-24">${log.time}</td>
-                    <td class="py-2.5 w-32"><span class="px-2 py-0.5 rounded text-[10px] font-bold tracking-wider ${log.type === 'ACCOUNTING' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : log.type === 'WAREHOUSE' ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' : log.type === 'PRODUCTION' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-slate-800 text-slate-400'}">${log.type}</span></td>
-                    <td class="py-2.5 text-slate-300 font-medium">${log.detail}</td>
-                </tr>`;
-            });
+            // Calculate and Sync Current Cart Layout Screen
+            renderCartInterface();
         }
 
-        // Dynamic BOM Row Builder Mechanics
-        function addBomRow() {
-            const container = document.getElementById('bom-rows-container');
-            const rowId = "bom_row_" + Date.now() + Math.random().toString(36).substr(2, 4);
+        // Render Current Shopping Cart Dynamic State Function
+        function renderCartInterface() {
+            const cartRows = document.getElementById('cart-table-rows');
+            cartRows.innerHTML = '';
+            let grandTotal = 0;
+
+            activeCart.forEach((item, index) => {
+                const subtotal = item.product.price * item.quantity;
+                grandTotal += subtotal;
+
+                cartRows.innerHTML += `<tr class="border-b border-slate-900/40 hover:bg-slate-900/20">
+                    <td class="py-2 font-medium text-slate-200">${item.product.name}</td>
+                    <td class="py-2 text-right font-mono">${item.quantity}</td>
+                    <td class="py-2 text-right text-slate-400">$${item.product.price.toFixed(2)}</td>
+                    <td class="py-2 text-right font-bold text-emerald-400">$${subtotal.toFixed(2)}</td>
+                </tr>`;
+            });
+
+            document.getElementById('cart-grand-total').innerText = `$${grandTotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        }
+
+        // Action Command: Add New Product Form Submission Handler
+        function saveNewProduct() {
+            const name = document.getElementById('inv-name').value.trim();
+            const unit = document.getElementById('inv-unit').value.trim();
+            const stock = parseInt(document.getElementById('inv-stock').value);
+            const price = parseFloat(document.getElementById('inv-price').value);
+
+            if(!name || !unit || isNaN(stock) || isNaN(price)) return alert('ကျေးဇူးပြု၍ အချက်အလက်များ အပြည့်အစုံ ဖြည့်စွက်ပေးပါ။');
+
+            const id = "prod_" + Date.now();
+            database.products.push({ id, name, unit, stock, price });
+            database.logs.push({ time: new Date().toLocaleTimeString(), detail: `ကုန်ပစ္စည်းအသစ် ထည့်သွင်းပြီးပါပြီ: ${name} (${stock} ${unit})` });
+
+            // Clear inputs
+            document.getElementById('inv-name').value = '';
+            document.getElementById('inv-unit').value = '';
             
-            let optionsHtml = '';
-            state.materials.forEach(m => {
-                optionsHtml += `<option value="${m.id}">${m.name} (${m.unit})</option>`;
-            });
-
-            const rowTemplate = `
-                <div id="${rowId}" class="flex items-center space-x-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800/80 bom-item-row animate-fadeIn">
-                    <div class="flex-1">
-                        <select class="bom-mat-id w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-300 focus:outline-none">
-                            ${optionsHtml}
-                        </select>
-                    </div>
-                    <div class="w-36">
-                        <input type="number" step="any" value="1" class="bom-mat-qty w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-200 text-center focus:outline-none" placeholder="Usage Qty" />
-                    </div>
-                    <button onclick="document.getElementById('${rowId}').remove()" class="text-xs text-red-400 hover:text-red-300 font-medium px-2 cursor-pointer">✕</button>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', rowTemplate);
+            saveDatabase();
+            alert('ကုန်ပစ္စည်းကို စာရင်းသွင်းသိမ်းဆည်းပြီးပါပြီဗျာ။');
         }
 
-        // Tab Navigation Architecture Engine
+        // Action Command: POS Addition Routine Block
+        function addItemToCart() {
+            const prodId = document.getElementById('pos-product-select').value;
+            const qty = parseInt(document.getElementById('pos-qty').value);
+
+            if(!prodId || isNaN(qty) || qty <= 0) return alert('ရောင်းချမည့် အရေအတွက် မှားယွင်းနေပါသည်။');
+
+            const productObj = database.products.find(p => p.id === prodId);
+
+            // Check if cart requests more than what we currently possess inside warehouse database
+            const existingCartItem = activeCart.find(item => item.product.id === prodId);
+            const currentCartQty = existingCartItem ? existingCartItem.quantity : 0;
+            
+            if((currentCartQty + qty) > productObj.stock) {
+                return alert(`🚨 Stock မလုံလောက်ပါ! လက်ရှိတွင် ${productObj.stock} ${productObj.unit} သာ ကျန်ရှိပါတော့သည်။`);
+            }
+
+            if(existingCartItem) {
+                existingCartItem.quantity += qty;
+            } else {
+                activeCart.push({ product: productObj, quantity: qty });
+            }
+
+            renderCartInterface();
+        }
+
+        // Action Command: Clear Current Active Cart 
+        function clearCart() {
+            activeCart = [];
+            renderCartInterface();
+        }
+
+        // Action Command: POS Checkout Dispatch Processor Engine
+        function checkoutBill() {
+            if(activeCart.length === 0) return alert('ခြင်းတောင်းထဲတွင် မည်သည့် ကုန်ပစ္စည်းမှ မရှိသေးပါ။');
+
+            let billTotal = 0;
+            
+            // Deduct real values atomic operations execution block
+            activeCart.forEach(item => {
+                const realProduct = database.products.find(p => p.id === item.product.id);
+                realProduct.stock -= item.quantity;
+                billTotal += realProduct.price * item.quantity;
+            });
+
+            database.totalRevenue += billTotal;
+            database.orderCount += 1;
+            database.logs.push({ 
+                time: new Date().toLocaleTimeString(), 
+                detail: `POS Order #${database.orderCount} ပြီးဆုံးပါပြီ။ စုစုပေါင်းရောင်းရငွေ: +$${billTotal.toFixed(2)}` 
+            });
+
+            activeCart = []; // flush session layout cart state
+            saveDatabase();
+            alert('🎉 ငွေရှင်းမှု အောင်မြင်ပြီးပါပြီ။ Inventory Stock စာရင်းများ အလိုအလျောက် နှုတ်ပြီးဖြစ်ပါသည်။');
+        }
+
+        // Action Command: Save General Global App Profile Config Settings
+        function saveConfiguration() {
+            const inputTitle = document.getElementById('settings-app-title').value.trim();
+            if(!inputTitle) return alert('အလွတ်မဖြစ်ရပါ။');
+
+            database.appTitle = inputTitle;
+            database.logs.push({ time: new Date().toLocaleTimeString(), detail: `App Title ကို "${inputTitle}" သို့ ပြောင်းလဲခဲ့သည်။` });
+            saveDatabase();
+            alert('ပြင်ဆင်မှုများ သိမ်းဆည်းပြီးပါပြီဗျာ။');
+        }
+
+        // Core Module Screen Multi Tab Switcher Controller Architecture 
         function switchTab(tabId) {
-            ['dashboard', 'accounting', 'warehouse', 'production', 'settings'].forEach(id => {
+            ['dashboard', 'inventory', 'pos', 'settings'].forEach(id => {
                 document.getElementById(`tab-${id}`).classList.add('hidden');
             });
             document.getElementById(`tab-${tabId}`).classList.remove('hidden');
 
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-slate-800/80', 'text-blue-400', 'border', 'border-slate-700/50', 'shadow-sm');
+                btn.classList.remove('bg-slate-800', 'text-blue-400');
                 btn.classList.add('text-slate-400');
             });
-            event.currentTarget.classList.add('bg-slate-800/80', 'text-blue-400', 'border', 'border-slate-700/50', 'shadow-sm');
-            
-            if(tabId === 'production' && document.getElementById('bom-rows-container').children.length === 0) {
-                addBomRow(); // Add an initial baseline row for recipe building convenience
-            }
+            event.currentTarget.classList.add('bg-slate-800', 'text-blue-400');
         }
 
-        // Action: Capital Influx
-        function addCapital() {
-            const val = parseFloat(document.getElementById('input-capital').value);
-            if(isNaN(val) || val <= 0) return alert('ပမာဏ မှားယွင်းနေပါသည်။');
-            state.cashBalance += val;
-            state.logs.push({ time: new Date().toLocaleTimeString(), type: 'ACCOUNTING', detail: `လုပ်ငန်းသုံးမတည်ငွေရင်း အသစ်ထည့်သွင်းမှု: +$${val.toLocaleString()}` });
-            saveState();
-        }
-
-        // Action: SKU Creation
-        function addNewMaterialType() {
-            const name = document.getElementById('mat-name').value.trim();
-            const unit = document.getElementById('mat-unit').value.trim();
-            if(!name || !unit) return alert('အချက်အလက်များ အပြည့်အစုံ ဖြည့်စွက်ပါ');
-
-            const id = "m_" + Date.now();
-            state.materials.push({ id, name, unit, currentStock: 0, avgCost: 0 });
-            state.logs.push({ time: new Date().toLocaleTimeString(), type: 'WAREHOUSE', detail: `ကုန်ကြမ်းအမယ်သစ် စာရင်းသွင်းခြင်း အောင်မြင်: ${name} [${unit}]` });
-            
-            document.getElementById('mat-name').value = '';
-            document.getElementById('mat-unit').value = '';
-            saveState();
-        }
-
-        // Action: Procurements
-        function purchaseMaterial() {
-            const id = document.getElementById('purchase-mat-select').value;
-            const qty = parseFloat(document.getElementById('purchase-qty').value);
-            const price = parseFloat(document.getElementById('purchase-price').value);
-            const cost = qty * price;
-
-            if(!id) return alert('ကုန်ကြမ်းအမျိုးအစား ရွေးချယ်မှု မရှိသေးပါ');
-            if(cost > state.cashBalance) return alert('စနစ်အတွင်း ငွေကြေးပမာဏ လုံလောက်မှု မရှိပါ။');
-
-            const item = state.materials.find(m => m.id === id);
-            const currentTotalValue = item.currentStock * item.avgCost;
-            item.currentStock += qty;
-            item.avgCost = Math.round(((currentTotalValue + cost) / item.currentStock) * 100) / 100;
-
-            state.cashBalance -= cost;
-            state.logs.push({ time: new Date().toLocaleTimeString(), type: 'WAREHOUSE', detail: `Procurement Order Processed: ${item.name} (${qty} ${item.unit}) purchased for -$${cost.toLocaleString()}` });
-            saveState();
-        }
-
-        // Action: Complex Production Execution Flow
-        function executeProduction() {
-            const name = document.getElementById('prod-fg-name').value.trim();
-            const unit = document.getElementById('prod-fg-unit').value.trim();
-            const targetQty = parseFloat(document.getElementById('prod-target-qty').value);
-
-            if(!name || !unit || isNaN(targetQty) || targetQty <= 0) return alert('ထုတ်လုပ်မှု ပစ်မှတ် အချက်အလက်များ မှန်ကန်စွာ ဖြည့်ပါ။');
-
-            const rowElements = document.querySelectorAll('.bom-item-row');
-            if(rowElements.length === 0) return alert('BOM စပ်နည်း ချက်ပြုတ်နည်း Formula တည်ဆောက်ထားခြင်းမရှိပါ။');
-
-            let formulationList = [];
-            let stockCheckPassed = true;
-            let shortageErrorMessage = '🚨 ကုန်ကြမ်းလက်ကျန် မလုံလောက်မှု ပြဿနာ:\n';
-
-            // Gather elements & dry-run stock evaluation
-            for (let row of rowElements) {
-                const matId = row.querySelector('.bom-mat-id').value;
-                const usagePerUnit = parseFloat(row.querySelector('.bom-mat-qty').value);
-                
-                if (isNaN(usagePerUnit) || usagePerUnit <= 0) {
-                    alert('BOM Usage values must be valid and positive numbers.');
-                    return;
-                }
-
-                const matObj = state.materials.find(m => m.id === matId);
-                const totalNeeded = usagePerUnit * targetQty;
-
-                if (totalNeeded > matObj.currentStock) {
-                    stockCheckPassed = false;
-                    shortageErrorMessage += `• ${matObj.name} လိုအပ်ချက်: ${totalNeeded} ${matObj.unit} (လက်ရှိရှိနေသည်: ${matObj.currentStock} ${matObj.unit})\n`;
-                }
-
-                formulationList.push({ matObj, totalNeeded });
-            }
-
-            if (!stockCheckPassed) {
-                alert(shortageErrorMessage);
-                return;
-            }
-
-            // Real execution deduction block (Atomic Operations Mode)
-            formulationList.forEach(job => {
-                job.matObj.currentStock -= job.totalNeeded;
-            });
-
-            // Add or increment targeted Finished Goods Store
-            const existingFg = state.finishedGoodsStore.find(fg => fg.name.toLowerCase() === name.toLowerCase());
-            if (existingFg) {
-                existingFg.currentStock += targetQty;
-            } else {
-                state.finishedGoodsStore.push({ id: "fg_" + Date.now(), name, unit, currentStock: targetQty });
-            }
-
-            state.logs.push({ 
-                time: new Date().toLocaleTimeString(), 
-                type: 'PRODUCTION', 
-                detail: `Manufacturing Order Resolved: Created ${targetQty} ${unit} of "${name}". Raw items deducted via automated BOM verification.` 
-            });
-
-            saveState();
-            alert(`🎉 "${name}" အချောထည် ထုတ်လုပ်မှု အောင်မြင်စွာ ပြီးဆုံးပြီး စာရင်းသွင်းပြီးပါပြီ။`);
-        }
-
-        // Settings Save
-        function saveSettings() {
-            const name = document.getElementById('settings-company-name').value.trim();
-            if(!name) return alert('အလွတ်မဖြစ်ရပါ။');
-            state.companyName = name;
-            state.logs.push({ time: new Date().toLocaleTimeString(), type: 'SYSTEM', detail: `ကုမ္ပဏီအမည်အား "${name}" သို့ ပြောင်းလဲပြင်ဆင်လိုက်သည်။` });
-            saveState();
-        }
-
-        // Live Clock Engine Loop Pulse
+        // Continuous Live Display Digital Clock Runner Loop Routine 
         setInterval(() => {
-            document.getElementById('clock-display').innerText = new Date().toLocaleTimeString();
+            document.getElementById('live-clock').innerText = new Date().toLocaleTimeString();
         }, 1000);
 
-        // Core Initialization Boot
-        updateUI();
+        // Core Component Initial Bootstrap Trigger Load
+        updateUserInterface();
     </script>
 </body>
 </html>
